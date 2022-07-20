@@ -1,6 +1,24 @@
 #include "binary_trees.h"
 
 /**
+ * _pow_recursion - Emulation of pow function using recursion
+ * @x: Base
+ * @y: Exponent
+ *
+ * Return: Mathematical power
+ */
+int _pow_recursion(int x, int y)
+{
+	if (y < 0)
+		return (-1);
+
+	if (y == 0)
+		return (1);
+
+	return (x * _pow_recursion(x, y - 1));
+}
+
+/**
  * binary_tree_height - Measures the height of a binary tree
  *
  * @tree: Pointer to a binary tree.
@@ -25,35 +43,14 @@ size_t binary_tree_height(const binary_tree_t *tree)
 }
 
 /**
- * binary_tree_balance - Measures the balance factor of a binary tree.
+ * binary_tree_leaves - Counts the leaves in a binary tree.
  *
  * @tree: Pointer to a binary tree.
  *
- * Return: measures the balance factor of a binary tree or 0 if tree is NULL.
+ * Return: Number of leafs counts the leaves in a binary tree.
  */
 
-int binary_tree_balance(const binary_tree_t *tree)
-{
-	int h_left = 0, h_right = 0;
-
-	if (!tree)
-		return (0);
-
-	h_left = (tree->left) ? (int)binary_tree_height(tree->left) : -1;
-	h_right = (tree->right) ? (int)binary_tree_height(tree->right) : -1;
-
-	return (h_left - h_right);
-}
-
-/**
- * binary_tree_is_full - checks if a binary tree is full.
- *
- * @tree: Pointer to a binary tree.
- *
- * Return: 1 if the binary tree is full, 0 otherwise.
- */
-
-int binary_tree_is_full(const binary_tree_t *tree)
+size_t binary_tree_leaves(const binary_tree_t *tree)
 {
 	if (!tree)
 		return (0);
@@ -61,13 +58,8 @@ int binary_tree_is_full(const binary_tree_t *tree)
 	if (!(tree->left) && !(tree->right))
 		return (1);
 
-	if (tree->left && tree->right)
-		return(binary_tree_is_full(tree->left) &&
-				binary_tree_is_full(tree->right));
-
-	return (0);
+	return (binary_tree_leaves(tree->left) + binary_tree_leaves(tree->right));
 }
-
 
 /**
  * binary_tree_is_perfect - Function that checks if a binary tree is perfect
@@ -79,5 +71,15 @@ int binary_tree_is_full(const binary_tree_t *tree)
 
 int binary_tree_is_perfect(const binary_tree_t *tree)
 {
-	return (!binary_tree_balance(tree) && binary_tree_is_full(tree));
+	int h, leaves;
+
+	if (!tree)
+		return (0);
+
+	h = (int)binary_tree_height(tree);
+	leaves = (int)binary_tree_leaves(tree);
+
+	if ((_pow_recursion(2, h)) == leaves)
+		return (1);
+	return (0);
 }
