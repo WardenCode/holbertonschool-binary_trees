@@ -25,7 +25,7 @@
 
 <p align="center">
     <a href="#Description">Description</a> •
-    <a href="#The console">Binary trees</a> •
+    <a href="#Binary trees">Binary trees</a> •
     <a href="#Contact Information">Contact Information</a> •
 </p>
 
